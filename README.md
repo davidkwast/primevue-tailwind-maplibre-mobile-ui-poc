@@ -8,4 +8,4 @@
 
 ## Tailwind and Maplibre responsivity test
 
-https://github.com/user-attachments/assets/ce1fc768-7212-44a7-97ed-1cb1d6a58428
+https://github.com/user-attachments/assets/f682cb3f-aa42-4f85-984f-eed89f16d5e3
