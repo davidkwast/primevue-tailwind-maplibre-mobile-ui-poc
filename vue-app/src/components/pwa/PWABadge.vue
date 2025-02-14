@@ -84,7 +84,9 @@ const show_toast = () => {
 //
 
 watch(pwa_message, (e) => {
-  show_toast()
+  if (pwa_message.value) {
+    show_toast()
+  }
 })
 
 
