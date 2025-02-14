@@ -1,8 +1,8 @@
 <script setup>
 
-import Card from 'primevue/card'
+import PWABadge from './components/pwa/PWABadge.vue'
 
-import PWABadge from './components/PWABadge.vue'
+import Map from './components/map/Map.vue'
 
 </script>
 
@@ -11,24 +11,32 @@ import PWABadge from './components/PWABadge.vue'
 <template>
 
 
-
-  <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
+  <div class="@container h-dvh">
 
 
+    <div class="flex flex-col @xl:flex-row h-dvh">
 
-  <Card>
-    <template #title>Simple Card</template>
-    <template #content>
-      <p class="m-0">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam
-        deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate
-        neque
-        quas!
-      </p>
-    </template>
-  </Card>
+      <div class="h-1/3 @xl:h-auto @xl:w-sm">
+        01
+      </div>
+
+
+      <div class="h-1/2 @xl:h-auto @xl:grow">
+
+        <Map />
+
+      </div>
+
+
+      <div class="h-1/3 @xl:h-auto @xl:w-sm">
+        03
+      </div>
+
+    </div>
+
+
+  </div>
+
 
 
 
