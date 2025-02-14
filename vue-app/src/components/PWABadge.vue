@@ -1,11 +1,14 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
+
 
 // check for updates every hour
 const period = 60 * 60 * 1000
 
 const swActivated = ref(false)
+
+
 
 /**
  * This function will register a periodic sync check every hour, you can modify the interval as needed.
@@ -53,7 +56,7 @@ const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({
   },
 })
 
-const title = computed(() => {
+const pwa_message = computed(() => {
   if (offlineReady.value)
     return 'App ready to work offline'
   if (needRefresh.value)
@@ -65,60 +68,63 @@ function close() {
   offlineReady.value = false
   needRefresh.value = false
 }
+
+
+//
+// import Toast from 'primevue/toast'
+import { useToast } from "primevue/usetoast"
+import Toast from 'primevue/toast'
+import Button from 'primevue/button';
+
+const toast = useToast();
+
+const show_toast = () => {
+  toast.add({ severity: 'info', summary: 'PWA status', detail: pwa_message });
+};
+//
+
+watch(pwa_message, (e) => {
+  show_toast()
+})
+
+
 </script>
 
-<template>
-  <div
-      v-if="offlineReady || needRefresh"
-      class="pwa-toast"
-      aria-labelledby="toast-message"
-      role="alert"
-  >
-    <div class="message">
-      <span id="toast-message">
-        {{ title }}
-      </span>
-    </div>
-    <div class="buttons">
-      <button v-if="needRefresh" type="button" class="reload" @click="updateServiceWorker()">
-        Reload
-      </button>
-      <button type="button" @click="close">
-        Close
-      </button>
-    </div>
-  </div>
-</template>
 
-<style scoped>
-.pwa-toast {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  margin: 16px;
-  padding: 12px;
-  border: 1px solid #8885;
-  border-radius: 4px;
-  z-index: 1;
-  text-align: left;
-  box-shadow: 3px 4px 5px 0 #8885;
-  display: grid;
-  background-color: white;
-}
-.pwa-toast .message {
-  margin-bottom: 8px;
-}
-.pwa-toast .buttons {
-  display: flex;
-}
-.pwa-toast button {
-  border: 1px solid #8885;
-  outline: none;
-  margin-right: 5px;
-  border-radius: 2px;
-  padding: 3px 10px;
-}
-.pwa-toast button.reload {
-  display: block;
-}
-</style>
+
+<template>
+
+
+
+  <Toast @close="close">
+
+    <template #message="slotProps">
+
+
+      <div class="p-toast-message-text" data-pc-section="messagetext">
+
+        <span class="p-toast-summary" data-pc-section="summary">{{ slotProps.message.summary }}</span>
+
+        <div class="p-toast-detail" data-pc-section="detail">
+
+          {{ slotProps.message.detail }}
+
+          <Button v-if="needRefresh" label="Reload" @click="updateServiceWorker()" />
+
+        </div>
+
+      </div>
+
+
+
+
+
+
+
+    </template>
+
+  </Toast>
+
+
+
+</template>
